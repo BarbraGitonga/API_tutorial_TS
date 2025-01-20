@@ -1,24 +1,19 @@
-import { onError } from "stoker/middlewares";
+import index from "@/routes/index.routes";
 
-import { OpenAPIHono } from "@hono/zod-openapi";
+import configureOpenAPI from "./lib/configure_open_api";
+import createApp from "./lib/create_app";
+import tasks from "./routes/tasks/tasks.index";
 
-import { pinologger } from "./middlewares/pino_logger";
+const app = createApp();
 
-const app = new OpenAPIHono();
-app.use(pinologger());
+const routes = [
+    index,
+    tasks,
+];
+configureOpenAPI(app);
 
-app.get("/", (c) => {
-  return c.text("Hello Hono!");
+routes.forEach((route) => {
+    app.route("/", route);
 });
 
-app.get("/error", (c) => {
-  c.status(422);
-  c.var.logger.info("Wow! Log Here!");
-  throw new Error("Oh No!");
-});
-
-app.notFound((c) => {
-  return c.text("Page not found", 404);
-});
-app.onError(onError);
 export default app;
