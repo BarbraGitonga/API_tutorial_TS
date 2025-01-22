@@ -98,7 +98,7 @@ export const patch = createRoute({
 export const remove = createRoute({
     tags,
     path: "/tasks.delete/{id}",
-    method: "patch",
+    method: "delete",
     request: {
         params: IdParamsSchema,
     },
