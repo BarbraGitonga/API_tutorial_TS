@@ -3,8 +3,8 @@ import { jsonContent, jsonContentOneOf, jsonContentRequired } from "stoker/opena
 import { createErrorSchema, IdParamsSchema } from "stoker/openapi/schemas";
 
 import { insertTaskSchema, patchTasksSchema, selectTasksSchema } from "@/db/schema/tasks";
-import { createRoute, z } from "@hono/zod-openapi";
 import { notFoundSchema } from "@/lib/constants";
+import { createRoute, z } from "@hono/zod-openapi";
 
 const tags = ["Tasks"];
 
@@ -67,7 +67,7 @@ export const create = createRoute({
 
 export const patch = createRoute({
     tags,
-    path: "/tasks/{id}",
+    path: "/tasks.patch/{id}",
     method: "patch",
     request: {
         params: IdParamsSchema,
@@ -91,12 +91,34 @@ export const patch = createRoute({
         [HttpStatusCodes.NOT_FOUND]: jsonContent(
             notFoundSchema,
             "Does not exist",
-        )
+        ),
     },
 });
 
+export const remove = createRoute({
+    tags,
+    path: "/tasks.delete/{id}",
+    method: "patch",
+    request: {
+        params: IdParamsSchema,
+    },
+    responses: {
+        [HttpStatusCodes.NO_CONTENT]: {
+            description: "task deleted",
+        },
+        [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+            createErrorSchema(IdParamsSchema),
+            "Invalid ID",
+        ),
+        [HttpStatusCodes.NOT_FOUND]: jsonContent(
+            notFoundSchema,
+            "Does not exist",
+        ),
+    },
+});
 
 export type ListRoute = typeof list;
 export type CreateRoute = typeof create;
 export type GetOneRoute = typeof getOne;
 export type PatchRoute = typeof patch;
+export type RemoveRoute = typeof remove;
