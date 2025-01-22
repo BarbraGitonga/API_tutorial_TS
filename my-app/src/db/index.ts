@@ -1,30 +1,12 @@
-import type { ExtractTablesWithRelations } from "drizzle-orm";
-
-import {
-    drizzle,
-    type NodePgDatabase,
-    type NodePgTransaction,
-} from "drizzle-orm/node-postgres";
+import { drizzle, type NodePgDatabase } from "drizzle-orm/node-postgres";
 import pg from "pg";
-
+import * as schema from "./schema"; // Import all schema exports
 import env from "@/env";
 
-import * as schema from "./schema/schema";
-
-export { schema };
+export type Database = NodePgDatabase<typeof schema>; // Connect schema types to the database
 const { Client, Pool } = pg;
 export { Client, Pool };
-export * from "drizzle-orm";
-export { drizzle as pgDrizzle } from "drizzle-orm/node-postgres";
-
-export type Database = NodePgDatabase<typeof schema>;
-
-export type Transaction = NodePgTransaction<
-    typeof schema,
-    ExtractTablesWithRelations<typeof schema>
->;
-
-export const db = drizzle(
+export const db: Database = drizzle(
     new Pool({
         connectionString: env.DATABASE_URL,
     }),

@@ -23,6 +23,9 @@ importers:
       drizzle-orm:
         specifier: ^0.38.4
         version: 0.38.4(@types/pg@8.11.10)(pg@8.13.1)
+      drizzle-zod:
+        specifier: ^0.6.1
+        version: 0.6.1(drizzle-orm@0.38.4(@types/pg@8.11.10)(pg@8.13.1))(zod@3.24.1)
       eslint-plugin-perfectionist:
         specifier: ^4.6.0
         version: 4.6.0(eslint@9.18.0)(typescript@5.7.3)
@@ -1087,6 +1090,12 @@ packages:
         optional: true
       sqlite3:
         optional: true
+
+  drizzle-zod@0.6.1:
+    resolution: {integrity: sha512-huEbUgnsuR8tupnmLiyB2F1I2H9dswI3GfM36IbIqx9i0YUeYjRsDpJVyFVeziUvI1ogT9JHRL2Q03cC4QmvxA==}
+    peerDependencies:
+      drizzle-orm: '>=0.36.0'
+      zod: '>=3.0.0'
 
   electron-to-chromium@1.5.83:
     resolution: {integrity: sha512-LcUDPqSt+V0QmI47XLzZrz5OqILSMGsPFkDYus22rIbgorSvBYEFqq854ltTmUdHkY92FSdAAvsh4jWEULMdfQ==}
@@ -3037,6 +3046,11 @@ snapshots:
     optionalDependencies:
       '@types/pg': 8.11.10
       pg: 8.13.1
+
+  drizzle-zod@0.6.1(drizzle-orm@0.38.4(@types/pg@8.11.10)(pg@8.13.1))(zod@3.24.1):
+    dependencies:
+      drizzle-orm: 0.38.4(@types/pg@8.11.10)(pg@8.13.1)
+      zod: 3.24.1
 
   electron-to-chromium@1.5.83: {}
 
