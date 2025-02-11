@@ -16,6 +16,7 @@ const envSchema = z.object({
         "info",
         "debug",
         "trace",
+        "silent",
     ]),
     DATABASE_URL: z.string(),
 });
